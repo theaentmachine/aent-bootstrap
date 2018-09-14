@@ -1,6 +1,6 @@
 ![Aenthill](https://avatars0.githubusercontent.com/u/36076306?s=200&u=77022eb3c9b55b54079c1d41a52f605f42ccaff0&v=4 "Aenthill")
 
-# aent-bootstrap [![Travis CI](https://travis-ci.org/theaentmachine/aent-bootstrap.svg?branch=master "Travis CI")](https://travis-ci.org/theaentmachine/aent-bootstrap) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/theaentmachine/aent-bootstrap/badges/quality-score.png?b=master "Scrutinizer Code Quality")](https://scrutinizer-ci.com/g/theaentmachine/aent-bootstrap/?branch=master)
+# aent-bootstrap [![Travis CI](https://travis-ci.org/theaentmachine/aent-bootstrap.svg?branch=master "Travis CI")](https://travis-ci.org/theaentmachine/aent-bootstrap) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/theaentmachine/aent-bootstrap/badges/quality-score.png?b=master "Scrutinizer Code Quality")](https://scrutinizer-ci.com/g/theaentmachine/aent-bootstrap/?branch=master) [![Layers](https://images.microbadger.com/badges/image/theaentmachine/aent-bootstrap.svg)](https://microbadger.com/images/theaentmachine/aent-bootstrap "Layers") [![Version](https://images.microbadger.com/badges/version/theaentmachine/aent-bootstrap.svg)](https://microbadger.com/images/theaentmachine/aent-bootstrap "Version")
 
 The aent used by [Aenthill](https://aenthill.github.io) for bootstrapping a Docker project for a web application.
 
