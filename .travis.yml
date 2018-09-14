@@ -1,0 +1,10 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+script:
+  - docker run --rm -e PHP_EXTENSION_INTL=1 -v "$PWD":/usr/src/app thecodingmachine/php:7.2-v1-cli composer install && composer run cs-check && composer run phpstan
+  - docker build . -t theaentmachine/aent-bootstrap:snapshot
