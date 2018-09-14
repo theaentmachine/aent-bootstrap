@@ -27,5 +27,5 @@ Please search on the [issue tracker](../../../issues) before creating one.
 
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-* Aenthill version: <!--- aenthill --version -->
+* Aenthill version (`aenthill --version`):
 * Operating System and version:
