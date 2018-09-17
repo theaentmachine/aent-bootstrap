@@ -101,7 +101,6 @@ final class AddEvent extends AbstractBootstrapAddEvent
             $type = $context->getType();
             $name = $context->getName();
             $baseVirtualHost = $context->getBaseVirtualHost();
-            $payload->getCIAent();
             $message = " - a <info>$type</info> environment <info>$name</info> with the base virtual host <info>$baseVirtualHost</info>";
             $message .= !empty($ci) ? ", <info>$orchestrator</info> as orchestrator and <info>$ci</info> as CI provider" : " and <info>$orchestrator</info> as orchestrator";
             $this->output->writeln($message);
@@ -266,11 +265,7 @@ final class AddEvent extends AbstractBootstrapAddEvent
     {
         $text = "\nYour orchestrator for your <info>$type</info> environment <info>$name</info>";
         $helpText = 'The orchestrator is a tool which will manage your container.';
-        $response = $this->prompt->getPromptHelper()->getFromColonyRegistry($this->orchestratorRegistry, $text, $helpText);
-        if (!empty($response)) {
-            return $response;
-        }
-        return $this->prompt->getPromptHelper()->getDockerHubImage();
+        return $this->prompt->getPromptHelper()->getFromColonyRegistry($this->orchestratorRegistry, $text, $helpText);
     }
 
     /**
@@ -282,10 +277,6 @@ final class AddEvent extends AbstractBootstrapAddEvent
     {
         $text = "\nYour CI provider for your <info>$type</info> environment <info>$name</info>";
         $helpText = 'A CI provider will automatically build the images of your containers and deploy them in your remote environment. You should definitely use one in environments != development.';
-        $response = $this->prompt->getPromptHelper()->getFromColonyRegistry($this->CIRegistry, $text, $helpText);
-        if (!empty($response)) {
-            return $response;
-        }
-        return $this->prompt->getPromptHelper()->getDockerHubImage();
+        return $this->prompt->getPromptHelper()->getFromColonyRegistry($this->CIRegistry, $text, $helpText);
     }
 }
