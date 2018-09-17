@@ -7,9 +7,9 @@ use TheAentMachine\Aent\Event\Bootstrap\AbstractBootstrapAddEvent;
 use TheAentMachine\Aent\Payload\Bootstrap\BootstrapPayload;
 use TheAentMachine\Aent\Payload\Bootstrap\BootstrapPayloadAggregator;
 use TheAentMachine\Aent\Payload\Bootstrap\Exception\BootstrapPayloadException;
-use TheAentMachine\Aent\Registry\CIAentRegistry;
-use TheAentMachine\Aent\Registry\Exception\AentRegistryException;
-use TheAentMachine\Aent\Registry\OrchestratorAentRegistry;
+use TheAentMachine\Aent\Registry\AentItemRegistry;
+use TheAentMachine\Aent\Registry\ColonyRegistry;
+use TheAentMachine\Aent\Registry\Exception\ColonyRegistryException;
 use TheAentMachine\Prompt\Helper\ValidatorHelper;
 
 final class AddEvent extends AbstractBootstrapAddEvent
@@ -28,8 +28,15 @@ final class AddEvent extends AbstractBootstrapAddEvent
         'Custom',
     ];
 
+    /** @var ColonyRegistry */
+    private $orchestratorRegistry;
+
+    /** @var ColonyRegistry */
+    private $CIRegistry;
+
     /**
      * @return void
+     * @throws ColonyRegistryException
      */
     protected function before(): void
     {
@@ -37,12 +44,14 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $this->boostrapPayloadAggregator = new BootstrapPayloadAggregator();
         $appName = $this->prompt->input("\nYour application name", null, null, true, ValidatorHelper::getAlphaValidator());
         $this->appName = \strtolower($appName ?? '');
+        $this->orchestratorRegistry = ColonyRegistry::orchestratorRegistry();
+        $this->CIRegistry = ColonyRegistry::CIRegistry();
     }
 
     /**
      * @return BootstrapPayloadAggregator
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
+     * @throws ColonyRegistryException
      */
     protected function process(): BootstrapPayloadAggregator
     {
@@ -86,16 +95,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $this->output->writeln("\nSetup summary:");
         /** @var BootstrapPayload $payload */
         foreach ($this->boostrapPayloadAggregator->getBootstrapPayloads() as $payload) {
-            try {
-                $orchestrator = OrchestratorAentRegistry::getKey($payload->getOrchestratorAent() ?? '');
-            } catch (AentRegistryException $e) {
-                $orchestrator = $payload->getOrchestratorAent();
-            }
-            try {
-                $ci = CIAentRegistry::getKey($payload->getCIAent() ?? '');
-            } catch (AentRegistryException $e) {
-                $ci = $payload->getCIAent();
-            }
+            $orchestrator = $payload->getOrchestratorAent()->getName();
+            $ci = !empty($payload->getCIAent()) ? $payload->getCIAent()->getName() : null;
             $context = $payload->getContext();
             $type = $context->getType();
             $name = $context->getName();
@@ -130,8 +131,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
     /**
      * @param int $setupTypeIndex
      * @return void
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
+     * @throws ColonyRegistryException
      */
     private function addDefaultPayloads(int $setupTypeIndex): void
     {
@@ -155,8 +156,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
 
     /**
      * @return void
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
+     * @throws ColonyRegistryException
      */
     private function addDockerComposeForDevelopment(): void
     {
@@ -165,14 +166,14 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $baseVirtualHost = $this->getBaseVirtualHost($type, $name);
         $payload = new BootstrapPayload();
         $payload->setContext(new Context($type, $name, $baseVirtualHost));
-        $payload->setOrchestratorAent(OrchestratorAentRegistry::getImage(OrchestratorAentRegistry::DOCKER_COMPOSE));
+        $payload->setOrchestratorAent($this->orchestratorRegistry->getAent(ColonyRegistry::DOCKER_COMPOSE));
         $this->boostrapPayloadAggregator->addBootstrapPayload($payload);
     }
 
     /**
      * @return void
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
+     * @throws ColonyRegistryException
      */
     private function addKubernetesForTest(): void
     {
@@ -181,15 +182,15 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $baseVirtualHost = $this->getBaseVirtualHost($type, $name);
         $payload = new BootstrapPayload();
         $payload->setContext(new Context($type, $name, $baseVirtualHost));
-        $payload->setOrchestratorAent(OrchestratorAentRegistry::getImage(OrchestratorAentRegistry::KUBERNETES));
+        $payload->setOrchestratorAent($this->orchestratorRegistry->getAent(ColonyRegistry::KUBERNETES));
         $payload->setCIAent($this->getCIAent($type, $name));
         $this->boostrapPayloadAggregator->addBootstrapPayload($payload);
     }
 
     /**
      * @return void
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
+     * @throws ColonyRegistryException
      */
     private function addKubernetesForProd(): void
     {
@@ -198,14 +199,13 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $baseVirtualHost = $this->getBaseVirtualHost($type, $name);
         $payload = new BootstrapPayload();
         $payload->setContext(new Context($type, $name, $baseVirtualHost));
-        $payload->setOrchestratorAent(OrchestratorAentRegistry::getImage(OrchestratorAentRegistry::KUBERNETES));
+        $payload->setOrchestratorAent($this->orchestratorRegistry->getAent(ColonyRegistry::KUBERNETES));
         $payload->setCIAent($this->getCIAent($type, $name));
         $this->boostrapPayloadAggregator->addBootstrapPayload($payload);
     }
 
     /**
      * @return void
-     * @throws AentRegistryException
      * @throws BootstrapPayloadException
      */
     private function addCustomPayload(): void
@@ -224,8 +224,7 @@ final class AddEvent extends AbstractBootstrapAddEvent
         $payload->setContext($context);
         $payload->setOrchestratorAent($this->getOrchestratorAent($type, $name));
         if (!$context->isDevelopment()) {
-            $CIAent = $this->getCIAent($type, $name);
-            $payload->setCIAent($CIAent);
+            $payload->setCIAent($this->getCIAent($type, $name));
         }
         $this->boostrapPayloadAggregator->addBootstrapPayload($payload);
     }
@@ -261,18 +260,15 @@ final class AddEvent extends AbstractBootstrapAddEvent
     /**
      * @param string $type
      * @param string $name
-     * @return string
-     * @throws AentRegistryException
+     * @return AentItemRegistry
      */
-    private function getOrchestratorAent(string $type, string $name): string
+    private function getOrchestratorAent(string $type, string $name): AentItemRegistry
     {
-        $orchestratorRegistryList = OrchestratorAentRegistry::getList();
-        $orchestratorItems = \array_keys($orchestratorRegistryList);
-        $orchestratorItems[] = 'Custom';
+        $text = "\nYour orchestrator for your <info>$type</info> environment <info>$name</info>";
         $helpText = 'The orchestrator is a tool which will manage your container.';
-        $response = $this->prompt->select("\nYour orchestrator for your <info>$type</info> environment <info>$name</info>", $orchestratorItems, $helpText, null, true);
-        if ($response !== 'Custom') {
-            return OrchestratorAentRegistry::getImage($response ?? '');
+        $response = $this->prompt->getPromptHelper()->getFromColonyRegistry($this->orchestratorRegistry, $text, $helpText);
+        if (!empty($response)) {
+            return $response;
         }
         return $this->prompt->getPromptHelper()->getDockerHubImage();
     }
@@ -280,18 +276,15 @@ final class AddEvent extends AbstractBootstrapAddEvent
     /**
      * @param string $type
      * @param string $name
-     * @return string
-     * @throws AentRegistryException
+     * @return AentItemRegistry
      */
-    private function getCIAent(string $type, string $name): string
+    private function getCIAent(string $type, string $name): AentItemRegistry
     {
-        $CIRegistryList = CIAentRegistry::getList();
-        $CIItems = \array_keys($CIRegistryList);
-        $CIItems[] = 'Custom';
+        $text = "\nYour CI provider for your <info>$type</info> environment <info>$name</info>";
         $helpText = 'A CI provider will automatically build the images of your containers and deploy them in your remote environment. You should definitely use one in environments != development.';
-        $response = $this->prompt->select("\nYour CI provider for your <info>$type</info> environment <info>$name</info>", $CIItems, $helpText, null, true);
-        if ($response !== 'Custom') {
-            return CIAentRegistry::getImage($response ?? '');
+        $response = $this->prompt->getPromptHelper()->getFromColonyRegistry($this->CIRegistry, $text, $helpText);
+        if (!empty($response)) {
+            return $response;
         }
         return $this->prompt->getPromptHelper()->getDockerHubImage();
     }
