@@ -82,7 +82,6 @@ final class AddEvent extends AbstractBootstrapAddEvent
      */
     protected function after(): void
     {
-        $this->prompt->printBlock('Setup done.');
         $this->output->writeln("\n👋 Hello again! I'm the aent <info>Bootstrap</info> and we have finished your project setup.");
         $this->printSummary();
         $this->output->writeln("\nYou may now start adding services with <info>aenthill add [image]</info>. See <info>https://aenthill.github.io/</info> for the list of available services!");
