@@ -1779,12 +1779,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gulien/aent-console.git",
-                "reference": "1aad82d163f1e0996f37a8d8d43e9806040f60ac"
+                "reference": "c772710f15c87cf5f9c27578cf27b5cc2616935b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gulien/aent-console/zipball/1aad82d163f1e0996f37a8d8d43e9806040f60ac",
-                "reference": "1aad82d163f1e0996f37a8d8d43e9806040f60ac",
+                "url": "https://api.github.com/repos/gulien/aent-console/zipball/c772710f15c87cf5f9c27578cf27b5cc2616935b",
+                "reference": "c772710f15c87cf5f9c27578cf27b5cc2616935b",
                 "shasum": ""
             },
             "require": {
@@ -1866,7 +1866,7 @@
             "support": {
                 "source": "https://github.com/gulien/aent-console/tree/master"
             },
-            "time": "2018-09-17T15:34:10+00:00"
+            "time": "2018-09-18T07:38:27+00:00"
         },
         {
             "name": "thecodingmachine/safe",
@@ -2671,16 +2671,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d"
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd088dc940a418f09cda079a9b5c7c478890fb8d",
-                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fa6ee28600d21d49b2b4e1006b48426cec8e579c",
+                "reference": "fa6ee28600d21d49b2b4e1006b48426cec8e579c",
                 "shasum": ""
             },
             "require": {
@@ -2718,7 +2718,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-07-15T17:25:16+00:00"
+            "time": "2018-09-18T07:03:24+00:00"
         },
         {
             "name": "ocramius/package-versions",
