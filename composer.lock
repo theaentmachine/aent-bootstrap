@@ -1779,12 +1779,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gulien/aent-console.git",
-                "reference": "5dea5be42feed233b0affe6230a3c44f5ce3d2ec"
+                "reference": "b2eb9cbc5ca6d85222340db087f5e5c2a4ebc888"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gulien/aent-console/zipball/5dea5be42feed233b0affe6230a3c44f5ce3d2ec",
-                "reference": "5dea5be42feed233b0affe6230a3c44f5ce3d2ec",
+                "url": "https://api.github.com/repos/gulien/aent-console/zipball/b2eb9cbc5ca6d85222340db087f5e5c2a4ebc888",
+                "reference": "b2eb9cbc5ca6d85222340db087f5e5c2a4ebc888",
                 "shasum": ""
             },
             "require": {
@@ -1866,20 +1866,20 @@
             "support": {
                 "source": "https://github.com/gulien/aent-console/tree/master"
             },
-            "time": "2018-09-24T15:58:47+00:00"
+            "time": "2018-09-25T13:50:24+00:00"
         },
         {
             "name": "thecodingmachine/safe",
-            "version": "v0.1.4",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/safe.git",
-                "reference": "b5446e5a8a92b26c613bb9f76bb16d23bf076445"
+                "reference": "56fcae888155f6ae0070545c5f80505c511598d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/b5446e5a8a92b26c613bb9f76bb16d23bf076445",
-                "reference": "b5446e5a8a92b26c613bb9f76bb16d23bf076445",
+                "url": "https://api.github.com/repos/thecodingmachine/safe/zipball/56fcae888155f6ae0070545c5f80505c511598d5",
+                "reference": "56fcae888155f6ae0070545c5f80505c511598d5",
                 "shasum": ""
             },
             "require": {
@@ -1996,7 +1996,7 @@
                 "MIT"
             ],
             "description": "PHP core functions that throw exceptions instead of returning FALSE on error",
-            "time": "2018-09-18T07:41:17+00:00"
+            "time": "2018-09-24T20:24:12+00:00"
         }
     ],
     "packages-dev": [
