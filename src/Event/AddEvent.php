@@ -2,6 +2,8 @@
 
 namespace TheAentMachine\AentBootstrap\Event;
 
+use Safe\Exceptions\ArrayException;
+use Safe\Exceptions\StringsException;
 use TheAentMachine\Aent\Context\Context;
 use TheAentMachine\Aent\Event\Bootstrap\AbstractBootstrapAddEvent;
 use TheAentMachine\Aent\Event\Bootstrap\Model\OrchestratorBootstrap;
@@ -32,6 +34,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
     /**
      * @return OrchestratorBootstrap[]
      * @throws ColonyRegistryException
+     * @throws StringsException
+     * @throws ArrayException
      */
     protected function getOrchestratorsBootstraps(): array
     {
@@ -46,6 +50,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
     /**
      * @return void
      * @throws ColonyRegistryException
+     * @throws StringsException
+     * @throws ArrayException
      */
     private function processSetupType(): void
     {
@@ -154,6 +160,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
 
     /**
      * @return void
+     * @throws ArrayException
+     * @throws StringsException
      */
     private function addCustomPayload(): void
     {
@@ -205,6 +213,8 @@ final class AddEvent extends AbstractBootstrapAddEvent
      * @param string $environmentType
      * @param string $environmentName
      * @return AentItemRegistry
+     * @throws ArrayException
+     * @throws StringsException
      */
     private function getOrchestratorAent(string $environmentType, string $environmentName): AentItemRegistry
     {
